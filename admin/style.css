@@ -29,7 +29,7 @@ header .fa-bars, .fa-close{
     cursor: pointer;
 }
 
-header .fa-home{
+header .fa-sign-out{
     color: white;
     cursor: default;
     font-size: 25px;
@@ -41,7 +41,7 @@ header .fa-home{
     right: 0;
     height: calc(100vh - 70px);
     width: 20rem;
-    display: none;
+    display: block;
 }
 
 .right_side img{

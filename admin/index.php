@@ -33,9 +33,9 @@ $get_user_image = $cnx->query($req_get_user_image);
 
     <header>
 
-        <a href="../"><i style="cursor : pointer;" class="fa fa-home"></i></a>
+        <a href="../"><i style="cursor : pointer;" class="fa fa-sign-out"></i></a>
         <h2 class="user_name"><i class="fa fa-arrow-down"></i> Admin</h2>
-        <i class="fa fa-bars" style="font-size: 25px;" onclick="show_right_side()"></i>
+        <i class="fa fa-close" id="fa" style="font-size: 25px;" onclick="showRightSide()"></i>
 
     </header>
 
@@ -59,7 +59,7 @@ $get_user_image = $cnx->query($req_get_user_image);
             </details>
 
             <li onclick="show_iframe_page()">afficher la page <i class="fa fa-eye"> </i></li>
-            <li>tableau de bord</li>
+            <li>commandes <i class="fa fa-first-order"></i></li>
             <li>tableau de bord</li>
 
         </ul>

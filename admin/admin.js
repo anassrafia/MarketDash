@@ -1,30 +1,29 @@
 var a = 1;
-show_right_side = () =>{
-    if(a === 1){
-        document.querySelector(".right_side").style.display = "block";
-        document.querySelector(".fa-bars").className = "fa fa-close";
-        document.querySelector(".iframe_page").className = "iframe_page_full";
-        return a = 0;
+
+function showRightSide() {
+    const rightSide = document.querySelector(".right_side");
+    const barsIcon = document.querySelector("#fa");
+
+    if (a === 1) {
+        rightSide.style.display = "none";
+        barsIcon.className = "fa fa-bars";
+        a = 0;
+    } else {
+        rightSide.style.display = "block";
+        barsIcon.className = "fa fa-close";
+        a = 1;
     }
-    else{
-        document.querySelector(".right_side").style.display = "none";
-        document.querySelector(".fa-close").className = "fa fa-bars";
-        document.querySelector(".iframe_page_full").className = "iframe_page";
-        return a = 1;
-    }
 }
 
-show_iframe_page = () =>{
-    document.querySelector("#home_iframe").style.display = "block";
-    document.querySelector("#home_iframe").src = "../";
+
+show_iframe_page = () => {
+    parent.location = "../";
 }
 
-gérer_les_slides = () =>{
-    document.querySelector("#home_iframe").src = "./gestionnaire_des_pages/gérer_les_slides.php";
-    document.querySelector("#home_iframe").style.display = "block";
+gérer_les_slides = () => {
+    parent.location = "./gestionnaire_des_pages/gérer_les_slides.php";
 }
 
-gérer_les_produits = () =>{
-    document.querySelector("#home_iframe").src = "./gestionnaire_des_pages/gérer_les_produits.php";
-    document.querySelector("#home_iframe").style.display = "block";
+gérer_les_produits = () => {
+    parent.location = "./gestionnaire_des_pages/gérer_les_produits.php";
 }

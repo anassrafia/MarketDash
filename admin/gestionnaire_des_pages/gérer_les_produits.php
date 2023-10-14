@@ -35,6 +35,10 @@ $get_products1 = $cnx->query($req_get_products);
 
 <body>
 
+    <?php
+    require "../header.html"
+    ?>
+
 
     <div class="container">
 

@@ -29,6 +29,10 @@ $get_user_image = $cnx->query($req_get_user_image);
 
 <body>
 
+    <?php
+        require "../header.html"
+    ?>
+
     <div class="container">
         <div class="add_slider">
             <form method="post" enctype="multipart/form-data">
