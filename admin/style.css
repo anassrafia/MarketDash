@@ -1,0 +1,126 @@
+body{
+    margin: auto;
+    font-family: Rubik;
+    background-color: #C9EAFF;
+}
+
+header{
+    background-color: #147ABC;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+header .user_name{
+    color: white;
+    cursor: default;
+}
+
+header .fa-arrow-down{
+    position: relative;
+    left: -10px;
+    cursor: pointer;
+}
+
+header .fa-bars, .fa-close{
+    color: white;
+    cursor: pointer;
+}
+
+header .fa-home{
+    color: white;
+    cursor: default;
+    font-size: 25px;
+}
+
+.right_side{
+    background-color: #243B53;
+    position: absolute;
+    right: 0;
+    height: calc(100vh - 70px);
+    width: 20rem;
+    display: none;
+}
+
+.right_side img{
+    width: 10rem;
+    height: 10rem;
+    display: block;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.right_side .name_user{
+    color: white;
+    text-align: center;
+    cursor: default;
+}
+
+.right_side ul{
+    list-style: none;
+    color: white;
+    height: auto;
+    position: absolute;
+    left: -40px;
+    width: 100%;
+}
+
+.right_side ul li, details{
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.right_side ul li i{
+    position: relative;
+    left: 10px;
+}
+
+
+.right_side ul li:hover{
+    background-color: #147ABC;
+}
+
+.right_side ul .Accueil{
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.right_side ul .Accueil li{
+    background-color: #147ABC;
+    z-index: 1;
+    height: 50px;
+}
+
+.right_side ul .Accueil li:hover{
+    background-color: white;
+    color: black;
+    z-index: 1;
+    height: 50px;
+}
+
+.iframe_page{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    height: calc(100vh - 70px);
+    background-color: white;
+}
+
+.iframe_page_full{
+    width: calc(100% - 20rem);
+    position: absolute;
+    left: 0;
+    height: calc(100vh - 70px);
+    background-color: white;
+}
+
+#home_iframe{
+    display: none;
+}

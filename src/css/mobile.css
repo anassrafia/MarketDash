@@ -1,0 +1,73 @@
+@media screen and (max-width: 599px) and (min-width: 10px) {
+    header {
+        width: 95%;
+        height: 90px;
+    }
+
+    header .principal{
+        display: none;
+    }
+
+    header #search{
+        display: none;
+    }
+
+    header .balance{
+        display: none;
+    }
+
+    header .bars{
+        display: flex;
+        position: relative;
+        left: 4px;
+        font-size: 26px;
+        border: none;
+    }
+
+    header .panier{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    header .fa-shopping-cart{
+        font-size: 26px;
+    }
+
+    header .shop_cart{
+        position: relative;
+        left: -4px;
+        border: none;
+    }
+
+    header .logo {
+        width: 150px;
+        cursor: pointer;
+    }
+
+    .img_slider {
+        width: 100%;
+    }
+
+    .first_title {
+        text-align: center;
+        margin-top: 20px;
+        cursor: default;
+        font-size: 16px;
+    }
+
+    .container{
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .img_slider img {
+        width: 26rem;
+    }
+
+    .img_slider {
+        height: 11.5rem;
+        margin-left: -8px;
+        width: 100%;
+    }
+  }

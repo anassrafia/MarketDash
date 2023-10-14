@@ -1,0 +1,7 @@
+@media screen and (max-width: 599px) and (min-width: 10px) {
+    .right_side{
+        width: 100%;
+        z-index: 2;
+    }
+
+}

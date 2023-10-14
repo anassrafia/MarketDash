@@ -1,0 +1,26 @@
+@media screen and (max-width: 1440px) and (min-width: 600px) {
+    header {
+        width: 95%;
+    }
+
+    .img_slider {
+        width: 93.3%;
+    }
+
+    .first_title{
+        text-align: center;
+        margin-top: 20px;
+        cursor: default;
+        font-size: 18px;
+    }
+
+    .container{
+        width: 93.3%;
+        margin-top: 30px;
+    }
+
+    .img_slider {
+        width: 93.3%;
+        overflow-x: auto;
+    }
+  }
