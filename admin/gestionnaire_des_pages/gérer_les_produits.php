@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: ../../admin/login.php");
+}
+?>
+
+<?php
 
 require "../../src/cnx/index.php";
 
@@ -78,35 +86,6 @@ $get_products1 = $cnx->query($req_get_products);
                 <input style="display : none;" type="text" name="data_img_delete" id="data_img_delete">
                 <input name="btn_delete" type="submit" class="btn_delete" value="supprimer product">
             </form>
-        </div>
-
-
-
-        <div class="prducts_edit">
-            <h2>créer une Landing page</h2>
-            <!-- <div class="all_product">
-            <?php
-                foreach ($get_products1 as $produit1) {
-                    $image_produit1 = $produit1['image'];
-                    $name_produit1 = $produit1['nom'];
-                    $produit_price1 = $produit1['price'];
-                    $id1 = $produit1['id'];
-
-                    echo "
-                    <div class='infopro select_product_to_add_landing_page' id='$id1'>
-                        <img src='../../$image_produit1' alt='$name_produit1'>
-                        <div class='product-name'>$name_produit1</div>
-                    </div>
-                    ";
-                }
-                ?>
-            </div> -->
-        </div>
-
-
-
-        <div class="prducts_edit">
-            <h2>information de produit</h2>
         </div>
 
 

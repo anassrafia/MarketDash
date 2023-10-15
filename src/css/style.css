@@ -38,6 +38,7 @@ header span {
     padding: 10px;
     border-radius: 3px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 header span:last-child {
@@ -139,7 +140,7 @@ header .bars {
 /* Media query for screens smaller than 768px */
 @media (max-width: 768px) {
     .product {
-        max-width: 100%;
+        max-width: 40%;
     }
 }
 
@@ -226,7 +227,7 @@ footer ul li a {
 }
 
 .the_cart {
-    width: 50%;
+    width: 90%;
     height: auto;
     background-color: white;
     padding: 20px;
@@ -235,6 +236,8 @@ footer ul li a {
     text-align: center;
     display: flex;
     flex-wrap: wrap;
+    color: white;
+    font-size: 0;
 }
 
 
@@ -258,6 +261,8 @@ footer ul li a {
     border-radius: 5px;
     box-sizing: border-box;
     background-color: white;
+    color: black;
+    font-size: 18px;
 }
 
 .pro_added img {
@@ -313,4 +318,62 @@ footer ul li a {
     color: red;
     margin-top: 15px;
     cursor: pointer;
+}
+
+
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0}
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
 }

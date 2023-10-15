@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: ./login.php");
+}
+
 
 require "../src/cnx/index.php";
 
@@ -33,8 +39,8 @@ $get_user_image = $cnx->query($req_get_user_image);
 
     <header>
 
-        <a href="../"><i style="cursor : pointer;" class="fa fa-sign-out"></i></a>
-        <h2 class="user_name"><i class="fa fa-arrow-down"></i> Admin</h2>
+        <a href="./logout.php"><i style="cursor : pointer;" class="fa fa-sign-out"></i></a>
+        <a href="./"><h2 class="user_name"><i class="fa fa-arrow-down"></i>Welcome <?php echo $_SESSION['username']?></h2></a>
         <i class="fa fa-close" id="fa" style="font-size: 25px;" onclick="showRightSide()"></i>
 
     </header>
@@ -49,7 +55,7 @@ $get_user_image = $cnx->query($req_get_user_image);
         }
         ?>
 
-        <h2 class="name_user">Admin</h2>
+        <h2 class="name_user"><?php echo $_SESSION['username']?></h2>
 
         <ul>
             <details class="Accueil">
@@ -58,15 +64,35 @@ $get_user_image = $cnx->query($req_get_user_image);
                 <li onclick="gérer_les_produits()">gérer les produits</li>
             </details>
 
-            <li onclick="show_iframe_page()">afficher la page <i class="fa fa-eye"> </i></li>
-            <li>commandes <i class="fa fa-first-order"></i></li>
-            <li>tableau de bord</li>
+            <a style="color:white;text-decoration:none;" target="_blank" href="../"><li>afficher la page <i class="fa fa-eye"> </i></li></a>
+            <a target="_blank"  href='./orders.php' style='color : white; text-decoration : none;'><li>commandes <i class="fa fa-first-order"></i></li></a>
+            <li onclick='document.querySelector(`.add_admin`).style.display = `block`'>add admin <i class="fa fa-user"></i></li>
+            <li onclick='document.querySelector(`.iframe_page`).src = `./setting.php`'>paramètres <i class="fa fa-cog"></i></li>
+            <div class="add_admin">
+                <i onclick="this.parentNode.style.display = 'none'" class="fa fa-close" style="position :absolute; top:10px;left:10px;color:black;"></i>
+                <form method="post" autocomplete="off">
+                    <input type="text" placeholder="Add username" name="username"/>
+                    <input type="text" placeholder="Add password" name="password"/>
+                    <input type="submit" style="cursor:pointer;" value="Add" name="add"/>
+                    <?php
+                        if(isset($_REQUEST['username']) && isset($_REQUEST['password'])){
+                            $addusername = $_REQUEST['username'];
+                            $addpassword = $_REQUEST['password'];
+                            $user_id = rand(9999,9999999);
 
+                            $req_add_userAdmin = "INSERT INTO user_admin VALUES('','$addusername','$addpassword','$user_id')";
+                            $cnx->exec($req_add_userAdmin);
+
+                            echo "<script>alert('user a bien été ajouté. username : `$addusername` . password : `$addpassword`')</script>";
+                        }
+                    ?>
+                </form>
+            </div>
         </ul>
 
     </div>
 
-    <iframe id="home_iframe" src="../index.php" class="iframe_page" frameborder="0"></iframe>
+    <iframe class="iframe_page" src="./orders.php" frameborder="0"></iframe>
 
 
 

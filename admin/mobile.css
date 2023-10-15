@@ -4,4 +4,11 @@
         z-index: 2;
     }
 
+    .add_admin {
+        background-color: white;
+        bottom: -127px;
+        display: none;
+        width: 100%;
+    }
+
 }

@@ -38,7 +38,7 @@ $get_products = $cnx->query($req_get_products);
 
 </script>
 
-<body>
+<body onload="if(localStorage.getItem('total') == null){document.querySelector('.balance').textContent = 'Dh 0'}">
 
 
     <header>
@@ -49,29 +49,66 @@ $get_products = $cnx->query($req_get_products);
 
         <div class="the_shopping_cart">
 
-            <i class="fa fa-search" id="search"></i>
-
             <div class="panier">
-                <span class="balance">$ 100</span>
-                <span class="shop_cart" onclick="document.querySelector('.my_cart').style.display = 'flex';"><i
-                        class="fa fa-shopping-cart"></i></span>
-                <span class="bars"><i class="fa fa-bars"></i></span>
+                <span class="balance">
+                    <script>
+                        document.write('Dh ' + localStorage.getItem('total'));
+                    </script>
+                </span>
+                <span class="shop_cart" onclick="document.querySelector('.my_cart').style.display = 'flex';"><i class="fa fa-shopping-cart"></i></span>
             </div>
 
         </div>
 
     </header>
 
+    <div class="slideshow-container">
 
-    <div class='img_slider'>
         <?php
         foreach ($get_sliders as $slider) {
             $image_slider = $slider['img_src'];
             $link_to_page = $slider['link_to_page'];
 
-            echo "\n<a href='$link_to_page'>\n<img src='$image_slider'>\n</a>\n";
+            echo "
+            <div class='mySlides fade'>
+                <img src='$image_slider' style='width:100%'>
+            </div>
+            <a class='prev' onclick='plusSlides(-1)'>❮</a>
+            <a class='next' onclick='plusSlides(1)'>❯</a>
+            ";
         }
         ?>
+
+        <script>
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                let dots = document.getElementsByClassName("dot");
+                if (n > slides.length) { slideIndex = 1 }
+                if (n < 1) { slideIndex = slides.length }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex - 1].style.display = "block";
+            }
+        </script>
+
+
+
     </div>
 
     <h2 class="first_title">Shop</h2>
@@ -95,10 +132,12 @@ $get_products = $cnx->query($req_get_products);
                 <div class='product-name'>$name_produit</div>
                 <div class='product-price'>$ $produit_price</div>
             </a>
-            <div onmouseenter='this.style.display = `block`' class='add-to-cart' onclick='add_to_cart_$produit_id();'><i class='fa fa-shopping-bag'></i></div>
+            <div onmousemove='this.style.display = `block`' class='add-to-cart' onclick='add_to_cart_$produit_id();'><i class='fa fa-shopping-bag'></i></div>
             </div>
 
             <script>
+
+                
                 function add_to_cart_$produit_id() {
                     var all_pro_added = `
                     <div id='$produit_id' class='pro_added'>
@@ -107,12 +146,26 @@ $get_products = $cnx->query($req_get_products);
                         <h2 class='pro_added_title'>$name_produit</h2>
                         <strong class='pro_added_price'>$ $produit_price</strong><br>
                         <a href='buy_product/index.php?id=$produit_id'><button>Commander</button></a>
-                        <i id='delete_item'  onclick='this.parentNode.parentNode.remove();' class='fa fa-trash'></i>
+                        <i id='delete_item'  onclick='this.parentNode.parentNode.remove();delete_item_$produit_id()' class='fa fa-trash'></i>
                     </div>
                     </div>
                     `;
 
                     localStorage.setItem(`cart_id_$produit_id`, all_pro_added);
+                    var total = localStorage.getItem('total');
+
+                    if (total === null || total === undefined) {
+                      total = 0;
+                    }
+
+                    var produit_price = Number($produit_price);
+
+                    total = Number(total) + produit_price;
+
+                    localStorage.setItem('total', total);
+
+                    document.querySelector('.balance').textContent = 'Dh ' + localStorage.getItem('total');
+
 
                     const keys = Object.keys(localStorage);
                     const the_cart = document.querySelector('.the_cart');
@@ -130,6 +183,19 @@ $get_products = $cnx->query($req_get_products);
 
                 }
 
+                function delete_item_$produit_id(){
+                    localStorage.removeItem(`cart_id_$produit_id`);
+
+                    var total = localStorage.getItem('total');
+
+                    var produit_price = Number($produit_price);
+
+                    total = Number(total) - produit_price;
+
+                    localStorage.setItem('total', total);
+
+                    document.querySelector('.balance').textContent = 'Dh ' + localStorage.getItem('total');
+                }
 
             </script>
             
@@ -143,7 +209,6 @@ $get_products = $cnx->query($req_get_products);
 
 
         <section class="my_cart">
-
             <i id="hide_my_cart" onclick="this.parentNode.style.display = 'none'" class="fa fa-close"></i>
 
             <div class="the_cart">
@@ -151,8 +216,8 @@ $get_products = $cnx->query($req_get_products);
                     const keys = Object.keys(localStorage);
 
                     keys.forEach((key) => {
-                        const value = localStorage.getItem(key);  
-                        document.write(value)                  
+                        const value = localStorage.getItem(key);
+                        document.write(value)
                     })
                 </script>
             </div>

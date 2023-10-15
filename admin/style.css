@@ -106,14 +106,6 @@ header .fa-sign-out{
 }
 
 .iframe_page{
-    width: 100%;
-    position: absolute;
-    left: 0;
-    height: calc(100vh - 70px);
-    background-color: white;
-}
-
-.iframe_page_full{
     width: calc(100% - 20rem);
     position: absolute;
     left: 0;
@@ -121,6 +113,40 @@ header .fa-sign-out{
     background-color: white;
 }
 
-#home_iframe{
+.iframe_page_full{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    height: calc(100vh - 70px);
+    background-color: white;
+}
+
+.add_admin{
+    background-color: white;
+    height: auto;
+    position: absolute;
+    bottom: -45px;
     display: none;
+}
+
+.add_admin form{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.add_admin input{
+    width: 70%;
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+
+
+a{
+    text-decoration: none;
 }

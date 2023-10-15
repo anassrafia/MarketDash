@@ -6,10 +6,12 @@ function showRightSide() {
 
     if (a === 1) {
         rightSide.style.display = "none";
+        document.querySelector('.iframe_page').className = "iframe_page_full";
         barsIcon.className = "fa fa-bars";
         a = 0;
     } else {
         rightSide.style.display = "block";
+        document.querySelector('.iframe_page_full').className = "iframe_page";
         barsIcon.className = "fa fa-close";
         a = 1;
     }

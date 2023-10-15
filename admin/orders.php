@@ -1,9 +1,32 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: ./login.php");
+}
+?>
+
+<?php
+
+require "../src/cnx/index.php";
+
+$cnx = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+
+
+$req_get_orders = "SELECT `product_id`, `Name`, `phone`, `Quantite`, `Order_date`, `ville`, `Total`, `Status`, `order_id` FROM `orders`;";
+$get_orders = $cnx->query($req_get_orders);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../src/images/Component/icon_logo.png" type="image/x-icon">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
 </head>
@@ -14,9 +37,24 @@
     <h4 style="color : white; cursor : default">Tableau de bord pour suivre les commandes des clients...</h4>
 
     <section class="dashboard_orders">
+        <?php
+        $result = $cnx->query("SELECT COUNT(*) FROM orders");
+        $count = $result->fetchColumn();
+        $result->closeCursor();
+        ?>
+
+        <!-- get all en attente data -->
+
+        <!-- <?php
+        $get_en_attente = $cnx->query("SELECT COUNT(*) FROM orders WHERE Status = 'en attente';");
+        $get_en_attente_orders = $get_en_attente->fetchColumn();
+        $get_en_attente->closeCursor();
+        ?> -->
 
         <div>
-            <h1><span>0</span> new order</h1>
+            <h1><span>
+                    <?php echo $count; ?>
+                </span> Tous les ordres</h1>
             <svg xmlns="http://www.w3.org/2000/svg" height="2em"
                 viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <style>
@@ -29,22 +67,49 @@
             </svg>
         </div>
 
-        <div>
-            <h1><span>0</span> les ordres en attente</h1>
-            <svg xmlns="http://www.w3.org/2000/svg" height="2em"
-                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                <style>
-                    svg {
-                        fill: #ffffff
-                    }
-                </style>
-                <path
-                    d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm48 160H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zM96 336c0-8.8 7.2-16 16-16H464c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zM376 160h80c13.3 0 24 10.7 24 24v48c0 13.3-10.7 24-24 24H376c-13.3 0-24-10.7-24-24V184c0-13.3 10.7-24 24-24z" />
-            </svg>
+        <div class="div_select">
+            <h1>
+
+                <form method="get">
+                    <select name="check_status" style="width : 70%;height:35px;display:block;margin : auto;"
+                        onchange="this.form.submit()">
+                        <option>Status</option>
+                        <option value="en attente" <?php if (isset($_REQUEST['check_status']) && $_REQUEST['check_status'] === "en attente")
+                            echo "selected"; ?>>les ordres en attente</option>
+                        <option value="valider" <?php if (isset($_REQUEST['check_status']) && $_REQUEST['check_status'] === "valider")
+                            echo "selected"; ?>>les ordres valider</option>
+                        <option value="annuler" <?php if (isset($_REQUEST['check_status']) && $_REQUEST['check_status'] === "annuler")
+                            echo "selected"; ?>>les ordres annuler</option>
+                    </select>
+                </form>
+            </h1>
+
+            <h1 style="text-align : center;margin-right : 10px;font-size:50px;">
+                <?php
+                if (isset($_REQUEST['check_status'])) {
+                    $check_status = $_REQUEST['check_status'];
+                    $stmt = $cnx->prepare("SELECT COUNT(*) FROM orders WHERE Status = :check_status");
+                    $stmt->bindParam(':check_status', $check_status);
+                    $stmt->execute();
+                    $get_check_status_orders = $stmt->fetchColumn();
+                    echo $get_check_status_orders;
+                } else {
+                    echo '0';
+                }
+                ?>
+            </h1>
+
         </div>
 
         <div>
-            <h1><span>0</span> Tous les ordres</h1>
+            <h1><span>
+                    <?php
+                    $Quantite_totale = $cnx->query("SELECT SUM(Quantite) AS Quantite FROM orders");
+                    $check_Quantite = $Quantite_totale->fetch();
+                    $totalQuantite = $check_Quantite['Quantite'];
+                    echo $totalQuantite;
+                    ?>
+                </span> Quantite Total</h1>
             <svg xmlns="http://www.w3.org/2000/svg" height="2em"
                 viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <style>
@@ -58,24 +123,16 @@
         </div>
 
         <div>
-            <h1><span>0</span> clients totaux</h1>
-            <svg xmlns="http://www.w3.org/2000/svg" height="2em"
-                viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                <style>
-                    svg {
-                        fill: #ffffff
-                    }
-                </style>
-                <path
-                    d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z" />
-            </svg>
-        </div>
+            <h1><span>
+                    <?php
+                    $Revenu_totale = $cnx->query("SELECT SUM(Total) AS Total FROM orders WHERE Status = 'valider';");
+                    $check_Revenu = $Revenu_totale->fetch();
+                    $totalRevenu = $check_Revenu['Total'];
+                    echo $totalRevenu . " Dh";
+                    ?>
 
-    </section>
-
-    <div class="table_title">
-        <h3>use the board to add orders and track their progress</h3>
-        <button><svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
+                </span> Revenu total</h1>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <style>
                     svg {
@@ -83,33 +140,86 @@
                     }
                 </style>
                 <path
-                    d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" />
-            </svg></button>
+                    d="M320 96H192L144.6 24.9C137.5 14.2 145.1 0 157.9 0H354.1c12.8 0 20.4 14.2 13.3 24.9L320 96zM192 128H320c3.8 2.5 8.1 5.3 13 8.4C389.7 172.7 512 250.9 512 416c0 53-43 96-96 96H96c-53 0-96-43-96-96C0 250.9 122.3 172.7 179 136.4l0 0 0 0c4.8-3.1 9.2-5.9 13-8.4zm84 88c0-11-9-20-20-20s-20 9-20 20v14c-7.6 1.7-15.2 4.4-22.2 8.5c-13.9 8.3-25.9 22.8-25.8 43.9c.1 20.3 12 33.1 24.7 40.7c11 6.6 24.7 10.8 35.6 14l1.7 .5c12.6 3.8 21.8 6.8 28 10.7c5.1 3.2 5.8 5.4 5.9 8.2c.1 5-1.8 8-5.9 10.5c-5 3.1-12.9 5-21.4 4.7c-11.1-.4-21.5-3.9-35.1-8.5c-2.3-.8-4.7-1.6-7.2-2.4c-10.5-3.5-21.8 2.2-25.3 12.6s2.2 21.8 12.6 25.3c1.9 .6 4 1.3 6.1 2.1l0 0 0 0c8.3 2.9 17.9 6.2 28.2 8.4V424c0 11 9 20 20 20s20-9 20-20V410.2c8-1.7 16-4.5 23.2-9c14.3-8.9 25.1-24.1 24.8-45c-.3-20.3-11.7-33.4-24.6-41.6c-11.5-7.2-25.9-11.6-37.1-15l0 0-.7-.2c-12.8-3.9-21.9-6.7-28.3-10.5c-5.2-3.1-5.3-4.9-5.3-6.7c0-3.7 1.4-6.5 6.2-9.3c5.4-3.2 13.6-5.1 21.5-5c9.6 .1 20.2 2.2 31.2 5.2c10.7 2.8 21.6-3.5 24.5-14.2s-3.5-21.6-14.2-24.5c-6.5-1.7-13.7-3.4-21.1-4.7V216z" />
+            </svg>
+        </div>
+
+    </section>
+
+    <div class="table_title">
+        <h3>use the board to add orders and track their progress</h3>
+        <div>
+
+            <button onclick="parent.location = './'"><svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
+                    viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <style>
+                        svg {
+                            fill: #ffffff
+                        }
+                    </style>
+                    <path
+                        d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" />
+                </svg></button>
+
+        </div>
     </div>
 
-    <table>
-        <tr>
-            <th>id Product</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Quntite</th>
-            <th>Order date</th>
-            <th>Deliver day</th>
-            <th>Total</th>
-            <th>Status</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Alfreds Futterkiste</td>
-            <td>0641390364</td>
-            <td>3</td>
-            <td>14/10/2023</td>
-            <td>16/10/2023</td>
-            <td>350 Dh</td>
-            <td>open</td>
-        </tr>
+    <article>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Quantite</th>
+                <th>Order date</th>
+                <th>ville</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Product id</th>
+                <th>Check Status</th>
+                <th>Supprimer order</th>
+            </tr>
 
-    </table>
+            <?php
+            foreach ($get_orders as $order) {
+                $product_id = $order['product_id'];
+                $Name = $order['Name'];
+                $phone = $order['phone'];
+                $Quantite = $order['Quantite'];
+                $Order_date = $order['Order_date'];
+                $ville = $order['ville'];
+                $Total = $order['Total'];
+                $order_id = $order['order_id'];
+                $Status = $order['Status'];
+
+                echo "<tr class='$Status'>
+            <td>$Name</td>
+            <td>$phone</td>
+            <td>$Quantite</td>
+            <td>$Order_date</td>
+            <td>$ville</td>
+            <td>$Total Dh</td>
+            <td>$Status</td>
+            <td><a style='color:white;' href='../buy_product/index.php?id=$product_id'>$product_id</a></td>
+            <td>
+                <form method='get' action='./update_statue.php'>
+                    <select name='check' style='display:block; margin:auto;' onchange='this.form.submit();'>
+                        <option>Status</option>
+                        <option value='en attente'>en attente</option>
+                        <option value='valider'>valider</option>
+                        <option value='annuler'>annuler</option>
+                    </select>
+                    <input type='hidden' name='order_id' value='$order_id'>
+                </form>
+            </td>
+            <td><a style='color:white;' href='./delete_order.php?order_id=$order_id'><i class='fa fa-trash' style='font-size : 18px;cursor:pointer;'></i></a></td>
+            </tr>";
+            }
+            ?>
+
+
+        </table>
+    </article>
+
 
 
 </body>
@@ -121,6 +231,18 @@
         width: 100%;
         display: flex;
         align-items: center;
+    }
+
+    .valider {
+        background-color: #37AB51;
+    }
+
+    .annuler {
+        background-color: #CD4C4C;
+    }
+
+    .attente {
+        background-color: #b6a345;
     }
 
     .dashboard_orders div {
@@ -184,11 +306,40 @@
     }
 
     td {
-        background: #434C69;
         color: white;
     }
 
     th {
         background-color: #4D5671;
+    }
+
+    @media screen and (max-width: 892px) and (min-width: 10px) {
+        .dashboard_orders {
+            width: 100%;
+            overflow: auto;
+        }
+
+        .dashboard_orders div {
+            width: 15rem;
+            height: auto;
+        }
+
+        .dashboard_orders div h1 {
+            width: 15rem;
+        }
+
+        .dashboard_orders .div_select {
+            height: 10rem;
+        }
+
+        article {
+            width: 100%;
+            height: auto;
+            overflow: auto;
+            padding: 0px;
+            margin: 0;
+            position: absolute;
+            left: 0;
+        }
     }
 </style>
