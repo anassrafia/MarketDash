@@ -129,8 +129,8 @@ $get_products = $cnx->query($req_get_products);
             <div class='product'>
             <a href='buy_product/index.php?id=$produit_id' onmouseenter='this.nextElementSibling.style.display = `block`' onmouseout='this.nextElementSibling.style.display = `none`'>
                 <img src='./$image_produit' alt='$name_produit'>
-                <div class='product-name'>$name_produit</div>
-                <div class='product-price'>$ $produit_price</div>
+                <div class='product-name'>$name_produit</div><hr>
+                <div class='product-price'>Dh $produit_price</div>
             </a>
             <div onmousemove='this.style.display = `block`' class='add-to-cart' onclick='add_to_cart_$produit_id();'><i class='fa fa-shopping-bag'></i></div>
             </div>
@@ -144,7 +144,7 @@ $get_products = $cnx->query($req_get_products);
                     <img src='./$image_produit' alt=''>
                     <div class='pro_added_info'>
                         <h2 class='pro_added_title'>$name_produit</h2>
-                        <strong class='pro_added_price'>$ $produit_price</strong><br>
+                        <strong class='pro_added_price'>Dh $produit_price</strong><br>
                         <a href='buy_product/index.php?id=$produit_id'><button>Commander</button></a>
                         <i id='delete_item'  onclick='this.parentNode.parentNode.remove();delete_item_$produit_id()' class='fa fa-trash'></i>
                     </div>

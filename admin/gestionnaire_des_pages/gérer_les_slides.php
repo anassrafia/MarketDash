@@ -198,7 +198,7 @@ if (isset($_REQUEST['btn_delete'])) {
             $stmt->bindParam(':data_img_delete', $data_img_delete, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                echo "<script>alert('L'image a été supprimée avec succès'); parent.location = 'redirect.html';</script>";
+                echo "<script>alert('L'image a été supprimée avec succès'); parent.location = 'gérer_les_slides.php';</script>";
             } else {
                 echo "<script>alert('Erreur lors de la suppression de l'image');</script>";
             }
@@ -208,7 +208,7 @@ if (isset($_REQUEST['btn_delete'])) {
     } else {
         echo "<script>alert('L'image n'a pas été trouvée dans la base de données');</script>";
     }
-    echo "<script>parent.location = 'redirect.html';</script></script>";
+    echo "<script>parent.location = './gérer_les_slides.php';</script></script>";
 }
 ?>
 

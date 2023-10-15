@@ -86,7 +86,7 @@ $get_products = $cnx->query($req_get_products);
             <h2>
                 <?php echo "{$product['nom']}"; ?>
             </h2>
-            <p>Price: $
+            <p>Price: Dh
                 <?php echo "{$product['price']}"; ?>
             </p>
             <form method="POST">

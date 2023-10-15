@@ -114,14 +114,16 @@ header .bars {
 .product .product-name {
     font-weight: bold;
     margin-top: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 /* Style for product price */
 .product .product-price {
-    color: black;
+    color: #4B32B4;
     /* Change to your desired color */
     margin-top: 10px;
-    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 300;
 }
 
 /* Style for "Add to Cart" icon */

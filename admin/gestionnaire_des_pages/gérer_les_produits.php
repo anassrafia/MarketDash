@@ -217,7 +217,7 @@ if (isset($_POST['btn_delete'])) {
         if (file_exists($image_path) && is_writable($image_path)) {
             // Delete the image file
             unlink($image_path);
-            echo "<script>parent.location = 'redirect.html'</script>";
+            echo "<script>parent.location = './gérer_les_produits.php'</script>";
         } else {
             echo "<script>alert('Image file for product with ID $product_id not found or cannot be deleted.')</script>";
         }
@@ -289,7 +289,7 @@ if (isset($_POST['add_produit'])) {
             $stmt->bind_param("sssss", $product_name, $product_price, $add_to_cart, $link, $target_file);
 
             if ($stmt->execute()) {
-                echo "<script>parent.location = 'redirect.html';</script>";
+                echo "<script>parent.location = './gérer_les_produits.php';</script>";
             } else {
                 echo "Erreur lors de l'ajout du produit: " . $stmt->error;
             }
